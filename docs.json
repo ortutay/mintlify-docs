@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "FetchFox",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#FFB76A",
-    "dark": "#C96E11"
+    "primary": "#FD953A",
+    "light": "#FFB66E",
+    "dark": "#C46A12"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -83,7 +83,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:marcell@fetchfoxai.com"
       }
     ],
     "primary": {
