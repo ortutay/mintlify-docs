@@ -18,6 +18,12 @@
             "pages": [
               "quickstart"
             ]
+          },
+          {
+            "group": "Scrape",
+            "pages": [
+              "scrape"
+            ]
           }
         ]
       }
