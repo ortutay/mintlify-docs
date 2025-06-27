@@ -9,7 +9,7 @@ First, you'll need your API key. You can find it in the FetchFox app at [<u>http
 
 ## Run a scrape
 
-To run a scrape, we'll use the `api/scrape` endpoint. Let's scrape some Pokemon using the snippet below.
+To run a scrape, we'll use the `/api/scrape` endpoint. Let's scrape some Pokemon using the snippet below.
 
 <CodeGroup>
 
@@ -17,8 +17,11 @@ To run a scrape, we'll use the `api/scrape` endpoint. Let's scrape some Pokemon 
 curl -X POST https://api.fetchfox.ai/api/scrape \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_API_KEY" \
--d '{"pattern":"https://pokemondb.net/pokedex/*",
-"template":{"name": "Pokemon name", "number": "Pokemon number}
+-d '{
+"pattern":"https://pokemondb.net/pokedex/*",
+"template": {"name": "Pokemon name", "number": "Pokemon number"}
+"max_visits": 10,
+"max_extracts": 10
 }'
 ```
 
@@ -67,3 +70,7 @@ print(response.json()['results']['items'])
 </CodeGroup>
 
 When the scrape finishes, you'll a response with items will be in the `results.items` field. These items will have the keys `name` and `number`.
+
+## Next Steps
+
+Now that you've run a simple scrape, learn all the options on the `/api/scrape` endpoint.
