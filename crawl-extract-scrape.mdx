@@ -1,0 +1,31 @@
+---
+title: "Scrape = Crawl + Extract"
+description: "Scraping consists of two phases: crawl and extract"
+---
+
+There are two phases to scraping with FetchFox. First, you **crawl for URLs** based on a URL pattern. Then, you taking the resulting URLs and feed them into the second phase, which **extracts data from URLs**.
+
+Let's walk through an example, step-by-step.
+
+## Crawl for URLs
+
+You'll typically start a scrape by crawling for URLs using the crawl endpoint. This endpoint has one required parameter, which a **URL pattern**. This is a URL that may contain some \* characters in it, which act as wildcards. The crawl endpoint will look for URLs that match that pattern, and return them in its response.
+
+Some examples of URL patterns:
+
+- [**https://example.com**](https://example.com*)**\*** will match every URL starting with https://example.com
+- [**https://example.com/\*/category/\***](https://example.com/*/category/*) will match URLs on [example.com](http://example.com) that have "/category/" in them.
+- [**https://example.com/page-1**](https://example.com/page-1) has no wildcards, so it will match exactly one URL
+
+The `pattern` field is the only required parameters for a crawl. Execute a test crawl using the code snippet below:
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/crawl \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{"pattern":"https://www.pokemon.com/us/pokedex/*"}'
+```
+
+</CodeGroup>

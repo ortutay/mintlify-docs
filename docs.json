@@ -20,9 +20,9 @@
             ]
           },
           {
-            "group": "Key Concepts",
+            "group": "Basics",
             "pages": [
-              "scrape"
+              "crawl-extract-scrape"
             ]
           }
         ]
