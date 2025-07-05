@@ -25,7 +25,37 @@ The `pattern` field is the only required parameters for a crawl. Execute a test 
 curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_API_KEY" \
--d '{"pattern":"https://www.pokemon.com/us/pokedex/*"}'
+-d '{"pattern":"https://pokemondb.net/pokedex/*"}'
 ```
 
 </CodeGroup>
+
+This call will take about a minute, and the response will look something like this:
+
+```
+{
+  "job_id": "5ooygvit1y",
+  "results": {
+    "hits": [
+      "https://pokemondb.net/pokedex/all",
+      "https://pokemondb.net/pokedex/archaludon",
+      "https://pokemondb.net/pokedex/charizard",
+      "https://pokemondb.net/pokedex/corviknight",
+      "https://pokemondb.net/pokedex/dipplin",
+      "https://pokemondb.net/pokedex/dragapult",
+      "https://pokemondb.net/pokedex/dragonite",
+      "https://pokemondb.net/pokedex/eevee",
+      "https://pokemondb.net/pokedex/game/legends-arceus",
+      "https://pokemondb.net/pokedex/game/scarlet-violet",
+      ...more results..
+    ]
+  },
+  "metrics": { ...cost and usage metrics ... }
+}
+```
+
+This `.results.hits` section contains all the URLs matching the URL pattern `https://pokemondb.net/pokedex/*"` .
+
+## Extract data from the URLs
+
+[TODO]
