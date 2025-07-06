@@ -17,7 +17,9 @@ Some examples of URL patterns:
 - [**https://example.com/\*/category/\***](https://example.com/*/category/*) will match URLs on [example.com](http://example.com) that have "/category/" in them.
 - [**https://example.com/page-1**](https://example.com/page-1) has no wildcards, so it will match exactly one URL
 
-The `pattern` field is the only required parameters for a crawl. Below is an example of how to call the crawl endpoint.
+The `pattern` field is the only required parameters for a crawl.
+
+Below is an example of how to call the crawl endpoint.
 
 <CodeGroup>
 
@@ -25,16 +27,19 @@ The `pattern` field is the only required parameters for a crawl. Below is an exa
 curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_API_KEY" \
--d '{"pattern":"https://pokemondb.net/pokedex/*"}'
+-d '{
+    "pattern":"https://pokemondb.net/pokedex/*",
+    "max_visits": 50
+}'
 ```
 
 </CodeGroup>
 
-This call will take about a minute, and it finds all URLs starting with `https://pokemondb.net/pokedex/`, like `https://pokemondb.net/pokedex/pikachu`. The goal is to get the URLs of all the pokemon.
+This call will take about a minute, and it finds all URLs starting with `https://pokemondb.net/pokedex/`. The goal is to get the URLs of all the pokemon. The `max_visits` parameter puts a cap on how many pages FetchFox visits before it stops crawling.
 
- The response will look something like this:
+The response will look something like this:
 
-```
+```json
 {
   "job_id": "5ooygvit1y",
   "results": {
@@ -49,7 +54,7 @@ This call will take about a minute, and it finds all URLs starting with `https:/
       "https://pokemondb.net/pokedex/eevee",
       "https://pokemondb.net/pokedex/game/legends-arceus",
       "https://pokemondb.net/pokedex/game/scarlet-violet",
-      ...more results..
+      ...more results...
     ]
   },
   "metrics": { ...cost and usage metrics ... }
@@ -58,8 +63,164 @@ This call will take about a minute, and it finds all URLs starting with `https:/
 
 This `.results.hits` section contains all the URLs matching the URL pattern `https://pokemondb.net/pokedex/*` .
 
-You might have noticed a few unwanted URLs in the hits, like `https://pokemondb.net/pokedex/game/legends-arceus`. We can update our pattern to exclude this using the `:*` operator. This will match all characters _except_ for forward slash.
+You might have noticed a few unwanted URLs in the hits, like `https://pokemondb.net/pokedex/game/legends-arceus`. We can update our pattern to exclude these using the `:*` operator. This will match all characters _except_ for forward slash.
 
 ## Extract from URLs to get items
 
-[TODO]
+The extract endpoint takes URLs and converts them into structured data. It has two required parameters: a list of `urls` specifying the pages to visit, and an item `template` which describes the output format.
+
+The `template` parameter can be either a string or a dictionary. If it is a string, FetchFox will use that string and a sampling of the URLs you pass in to determine the item schema. If it is a dictionary, the output items will always have keys matching the dictionary you provided.
+
+In either case, FetchFox will create a JSON schema specification from the `template` parameter. All items will follow the same JSON schema, and the response from the endpoint will include the schema.
+
+Below is an example call to extract data about some Pokemon.
+
+<CodeGroup>
+
+```bash curl
+curl -X POST "https://api.fetchfox.ai/api/extract" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+     "urls": [
+       "https://pokemondb.net/pokedex/bulbasaur",
+       "https://pokemondb.net/pokedex/ivysaur",
+       "https://pokemondb.net/pokedex/venusaur"
+     ],
+     "template": {
+       "name": "Name of the pokemon",
+       "number": "National pokedex number",
+       "stats": "Base stats as a dictionary"
+     }
+  }'
+```
+
+</CodeGroup>
+
+This should take under a minute to run, and the result will look something like this:
+
+```json
+{
+  "job_id": "wq2tebl9y7",
+  "results": {
+    "items": [
+      {
+        "name": "Bulbasaur",
+        "number": "0001",
+        "stats": {
+          "HP": 45,
+          "Attack": 49,
+          "Defense": 49,
+          "Sp. Atk": 65,
+          "Sp. Def": 65,
+          "Speed": 45,
+          "Total": 318
+        },
+        "_url": "https://pokemondb.net/pokedex/bulbasaur",
+        "_htmlUrl": "https://ffcloud.s3.amazonaws.com/visit/html/bco1ezqbxn.html"
+      },
+	  ...two more items...
+    ]
+  },
+  "metrics": { ...cost and usage metrics...},
+  "artifacts": [ ...AI generated artifacts, including schema...]
+}
+```
+
+The output item matches our template and reflects the data from the source page. FetchFox also added two fields, `_url` and `_htmlUrl`. These tell you the URL of the source data, and a saved snapshot of the HTML that FetchFox saw. These are useful for debugging.
+
+### Get multiple items from a single page
+
+By default, the extract endpoint finds exactly one item per page. Sometimes you want to extract multiple items per page. To do this, set the `per_page` parameter to `many`.
+
+Here is an example showing how to extract all the Pokemon from `https://pokemondb.net/pokedex/national`:
+
+<CodeGroup>
+
+```bash curl
+curl -X POST "https://api.fetchfox.ai/api/extract" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+     "urls": ["https://pokemondb.net/pokedex/national"],
+     "template": {
+       "name": "Name of the pokemon",
+       "number": "National pokedex number",
+       "types": "Array of the pokemon types"
+     },
+     "per_page": "many"
+  }'
+```
+
+</CodeGroup>
+
+The response will look something like this:
+
+```json
+{
+  "job_id": "m6eadxibwl",
+  "results": {
+    "items": [
+      {
+        "name": "Bulbasaur",
+        "number": "#0001",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "_url": "https://pokemondb.net/pokedex/national",
+        "_htmlUrl": "https://ffcloud.s3.amazonaws.com/visit/html/gvbultvay1.html"
+      },
+      {
+        "name": "Ivysaur",
+        "number": "#0002",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "_url": "https://pokemondb.net/pokedex/national",
+        "_htmlUrl": "https://ffcloud.s3.amazonaws.com/visit/html/gvbultvay1.html"
+      },
+      ...many more items...
+    ],
+  "metrics": { ...cost and usage metrics...},
+  "artifacts": [ ...schema and division selector...]
+}
+```
+
+The response `artifacts` will include the CSS selector used to divide the single page into pieces. Each piece is used to generate one output item.
+
+## A single endpoint to crawl and extract
+
+It's a common pattern to do a crawl and feed the results into extract. To make this simpler, FetchFox provides a single endpoint to do both at once: the scrape endpoint.
+
+The scrape endpoint has two required parameters: `pattern` which is used in the crawl phase to find URLs, and `template`, which is used in the extract phase to output items.
+
+Below is an example call to the scrape endpoint.
+
+<CodeGroup>
+
+```bash curl
+curl -X POST "https://api.fetchfox.ai/api/scrape" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+     "pattern": "https://www.pokemon.com/us/pokedex/:*",
+     "template": {
+       "name": "Name of the pokemon",
+       "number": "National pokedex number",
+       "stats": "Base stats as a dictionary"
+     },
+     "max_visits": 50,
+     "max_extracts": 10
+  }'
+```
+
+</CodeGroup>
+
+Note a couple points in the call:
+
+- We used the `:*` wildcard in the pattern, which does _not_ match forward slash. If you _do_ want to match forward slash, use `*`
+- We set `max_extracts` to 10. The limits the number of extractions, which is important to control costs during tests.
+
+This call should take a minute or two to run, and the output will be similar to the extract call from before.
