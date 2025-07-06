@@ -22,7 +22,8 @@
           {
             "group": "Basics",
             "pages": [
-              "scrape-equals-crawl-extract"
+              "crawl-extract-scrape",
+              "crawl"
             ]
           }
         ]
