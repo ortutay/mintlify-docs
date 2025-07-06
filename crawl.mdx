@@ -1,0 +1,37 @@
+---
+title: "Crawl for URLs"
+description: "The crawl endpoint finds URLs matching a pattern"
+---
+
+import BasicCrawlRequest from '/snippets/basic-crawl-request.mdx';
+import BasicCrawlResponse from '/snippets/basic-crawl-response.mdx';
+
+FetchFox's crawl endpoint takes a URL pattern as input, and it returns a list of URLs matching that pattern. It does this by repeatedly visiting pages on the target domain, finding new URLs to visit, and returning the ones that match. The endpoint has a variety of parameters to control how the crawl is executed.
+
+## Using URL patterns
+
+A basic crawl takes just the `pattern` parameter as input, which is a URL pattern.
+
+A URL pattern is a string that may contain some `*` and `:*` operators. Both of these are wildcards, but they operate in slightly different ways.
+
+- `*` matches any character
+- `:*` matches any character _except_  `/`
+
+URL patterns must be valid URLs with a domain. The domain may not contain wildcards.
+
+Below are a few examples of URL patterns and what they match.
+
+| URL Pattern                     | Matches                      | Does _not_ match             |
+| ------------------------------- | ---------------------------- | ---------------------------- |
+| https://example.com/\\\\\\\*    | https://example.com/c/page-1 | https://othersite.com/page   |
+| https://example.com/a/\\\\\\\*  | https://example.com/a/b/page | https://example.com/c/page-1 |
+| https://example.com/a/:\\\\\\\* | https://example.com/a/page   | https://example.com/a/b/page |
+| https://example.com/a/page-1    | https://example.com/a/page-1 | https://example.com/a/page-2 |
+
+To execute a simple crawl with a URL pattern, pass it in as a parameter to the crawl endpoint. This is shown in the example call below.
+
+<BasicCrawlRequest />
+
+The response for this call will look something like this:
+
+<BasicCrawlResponse />

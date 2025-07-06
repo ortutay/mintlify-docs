@@ -22,7 +22,7 @@
           {
             "group": "Basics",
             "pages": [
-              "crawl-extract-scrape"
+              "scrape-equals-crawl-extract"
             ]
           }
         ]
