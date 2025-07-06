@@ -28,7 +28,8 @@
           {
             "group": "Crawl",
             "pages": [
-              "crawl-using-patterns"
+              "crawl-using-patterns",
+              "limiting-crawls"
             ]
           }
         ]
