@@ -1,15 +1,15 @@
 ---
 title: "Scrape = Crawl + Extract"
-description: "Scraping consists of two phases: crawl and extract"
+description: "Scraping with FetchFox has two phases: crawl and extract"
 ---
 
-There are two phases to scraping with FetchFox. First, you **crawl for URLs** based on a URL pattern. Then, you taking the resulting URLs and feed them into the second phase, which **extracts data from URLs**.
+There are two phases to scraping with FetchFox. First, you **crawl for URLs** that match a URL pattern. Then, you **extract data from the URLs** that matched your pattern.
 
 Let's walk through an example, step-by-step.
 
 ## Crawl for URLs
 
-You'll typically start a scrape by crawling for URLs using the crawl endpoint. This endpoint has one required parameter, which a **URL pattern**. This is a URL that may contain some \* characters in it, which act as wildcards. The crawl endpoint will look for URLs that match that pattern, and return them in its response.
+You find URLs that match a pattern using the FetchFox's crawl endpoint. This endpoint has one required parameter, which `pattern`. This is a URL that may contain some \* characters in it, which act as wildcards. The crawl endpoint will find and return URLs that match that pattern.
 
 Some examples of URL patterns:
 
@@ -17,7 +17,7 @@ Some examples of URL patterns:
 - [**https://example.com/\*/category/\***](https://example.com/*/category/*) will match URLs on [example.com](http://example.com) that have "/category/" in them.
 - [**https://example.com/page-1**](https://example.com/page-1) has no wildcards, so it will match exactly one URL
 
-The `pattern` field is the only required parameters for a crawl. Execute a test crawl using the code snippet below:
+The `pattern` field is the only required parameters for a crawl. Below is an example of how to call the crawl endpoint.
 
 <CodeGroup>
 
@@ -30,7 +30,9 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 
 </CodeGroup>
 
-This call will take about a minute, and the response will look something like this:
+This call will take about a minute, and it finds all URLs starting with `https://pokemondb.net/pokedex/`, like `https://pokemondb.net/pokedex/pikachu`. The goal is to get the URLs of all the pokemon.
+
+ The response will look something like this:
 
 ```
 {
@@ -56,7 +58,7 @@ This call will take about a minute, and the response will look something like th
 
 This `.results.hits` section contains all the URLs matching the URL pattern `https://pokemondb.net/pokedex/*` .
 
-One thing you'll notice is that the `*` operator matches sub paths that we don't want, like `https://pokemondb.net/pokedex/game/legends-arceus`. You can use the `:*` operator instead, which will match everything _except_ the `/` character. The full pattern in that case would be `https://pokemondb.net/pokedex/:*` .
+You might have noticed a few unwanted URLs in the hits, like `https://pokemondb.net/pokedex/game/legends-arceus`. We can update our pattern to exclude this using the `:*` operator. This will match all characters _except_ for forward slash.
 
 ## Extract from URLs to get items
 
