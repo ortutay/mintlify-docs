@@ -1,0 +1,44 @@
+---
+title: "Limiting crawls"
+description: "You can limit the number of visits and depth of crawls"
+---
+
+import BasicCrawlRequest from '/snippets/basic-crawl-request.mdx';
+import MaxDepthCrawlRequest from '/snippets/max-depth-crawl-request.mdx';
+
+The crawl endpoint can be limited in two ways: you can limit the numbe of pages visited, and the depth (or distance) from the starting URLs.
+
+Limiting a crawl will control costs. Each visit uses bandwidth which incurs a cost depending on the proxy you use. There is also a small per-visit charge from FetchFox. A cap on the numbe of visits will also cap your cost.
+
+Limiting crawls also affects runtime. Although FetchFox visits pages concurrently during a crawl, there is a cap on that concurrency. A crawl with thousands of visits will take longer to execute than one with hundreds or fewer.
+
+Depending on the number of URLs you want to find, you may not need to visit very many pages in a crawl.
+
+## Limit the number of visits
+
+The `max_visits` parameter puts a limit on the number of pages visited in the crawl. The crawl will never visit more than that many URLs.
+
+Below is an example of a call to the crawl endpoint with a limit.
+
+<BasicCrawlRequest />
+
+This crawl will never visit more than the specified max pages.
+
+## Limit the depth
+
+The `max_depth` parameter limits the depth of the crawl.
+
+Depth means how far FetchFox will go from the starting URLs. The starting URLs are determined in one of two ways. 
+
+* If you pass in an array of URLs in `start_urls`, those are considered the staring URLs.
+* If you do _not_ pass in `start_urls`, then FetchFox will automatically set the starting URLs
+
+With that in mind, suppose a crawl starts at `https://example.com/`, and it finds a link to `https://example.com/category`. Following that link brings us to a depth of 1. If there is a link from there to ``https://example.com/category/product`, that would be a depth of 2, and so on.
+
+If there are multiple links to a page, the lowest depth value is used. All the starting URLs are considered to have a depth of 0.
+
+Below is an example of a crawl that limits the maximum depth.
+
+<MaxDepthCrawlRequest />
+
+This crawl will not travel beyond the specified depth from the starting URLs.

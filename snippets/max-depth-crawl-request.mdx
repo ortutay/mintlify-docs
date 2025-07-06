@@ -1,0 +1,16 @@
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/crawl \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+    "pattern":"https://pokemondb.net/pokedex/*",
+    "start_urls": [
+      "https://pokemondb.net/pokedex/national"
+    ],
+    "max_depth": 1
+}'
+```
+
+</CodeGroup>
