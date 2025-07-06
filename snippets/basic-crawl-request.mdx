@@ -1,5 +1,11 @@
----
-title: 'New file'
-description: 'Description of your new file.'
----
-
+<CodeGroup>
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/crawl \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+    "pattern":"https://pokemondb.net/pokedex/*",
+    "max_visits": 50
+}'
+```
+</CodeGroup>

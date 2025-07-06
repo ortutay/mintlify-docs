@@ -3,6 +3,9 @@ title: "Scrape = Crawl + Extract"
 description: "Scraping with FetchFox has two phases: crawl and extract"
 ---
 
+import BasicCrawlRequest from '/snippets/basic-crawl-request.mdx';
+import BasicCrawlResponse from '/snippets/basic-crawl-response.mdx';
+
 There are two phases to scraping with FetchFox. First, you **crawl for URLs** that match a URL pattern. Then, you **extract data from the URLs** that matched your pattern.
 
 Let's walk through an example, step-by-step.
@@ -21,45 +24,13 @@ The `pattern` field is the only required parameters for a crawl.
 
 Below is an example of how to call the crawl endpoint.
 
-<CodeGroup>
-
-```bash curl
-curl -X POST https://api.fetchfox.ai/api/crawl \
--H "Content-Type: application/json" \
--H "Authorization: Bearer YOUR_API_KEY" \
--d '{
-    "pattern":"https://pokemondb.net/pokedex/*",
-    "max_visits": 50
-}'
-```
-
-</CodeGroup>
+<BasicCrawlRequest />
 
 This call will take about a minute, and it finds all URLs starting with `https://pokemondb.net/pokedex/`. The goal is to get the URLs of all the pokemon. The `max_visits` parameter puts a cap on how many pages FetchFox visits before it stops crawling.
 
 The response will look something like this:
 
-```json
-{
-  "job_id": "5ooygvit1y",
-  "results": {
-    "hits": [
-      "https://pokemondb.net/pokedex/all",
-      "https://pokemondb.net/pokedex/archaludon",
-      "https://pokemondb.net/pokedex/charizard",
-      "https://pokemondb.net/pokedex/corviknight",
-      "https://pokemondb.net/pokedex/dipplin",
-      "https://pokemondb.net/pokedex/dragapult",
-      "https://pokemondb.net/pokedex/dragonite",
-      "https://pokemondb.net/pokedex/eevee",
-      "https://pokemondb.net/pokedex/game/legends-arceus",
-      "https://pokemondb.net/pokedex/game/scarlet-violet",
-      ...more results...
-    ]
-  },
-  "metrics": { ...cost and usage metrics ... }
-}
-```
+<BasicCrawlResponse />
 
 This `.results.hits` section contains all the URLs matching the URL pattern `https://pokemondb.net/pokedex/*` .
 
