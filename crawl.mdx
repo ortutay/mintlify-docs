@@ -1,5 +1,5 @@
 ---
-title: "Crawl for URLs"
+title: "Crawl using URL patterns"
 description: "The crawl endpoint finds URLs matching a pattern"
 ---
 
@@ -21,12 +21,12 @@ URL patterns must be valid URLs with a domain. The domain may not contain wildca
 
 Below are a few examples of URL patterns and what they match.
 
-| URL Pattern                  | Matches                      | Does _not_ match             |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| https://example.com/\*       | https://example.com/c/page-1 | https://othersite.com/page   |
-| https://example.com/a/\*     | https://example.com/a/b/page | https://example.com/c/page-1 |
-| https://example.com/a/:\*    | https://example.com/a/page   | https://example.com/a/b/page |
-| https://example.com/a/page-1 | https://example.com/a/page-1 | https://example.com/a/page-2 |
+| URL Pattern                                             | Matches                      | Does _not_ match             |
+| ------------------------------------------------------- | ---------------------------- | ---------------------------- |
+| https://example.com/*    | https://example.com/c/page-1 | https://othersite.com/page   |
+| https://example.com/a/*  | https://example.com/a/b/page | https://example.com/c/page-1 |
+| https://example.com/a/:* | https://example.com/a/page   | https://example.com/a/b/page |
+| https://example.com/a/page-1                            | https://example.com/a/page-1 | https://example.com/a/page-2 |
 
 To execute a simple crawl with a URL pattern, pass it in as a parameter to the crawl endpoint. This is shown in the example call below.
 
@@ -37,3 +37,21 @@ The response for this call will look something like this:
 <BasicCrawlResponse />
 
 The `results.hits` section contains all the matching URLs.
+
+In the example above, you'll notice some unwanted URLs, like `https://pokemondb.net/pokedex/game/legends-arceus`. We were looking only for URLs matching Pokemon characters, not games. This is a good time to use the `:*` operator, which does _not_ match slashes. Our updated call looks like this:
+
+<CodeGroup>
+
+```curl curl
+curl -X POST https://api.fetchfox.ai/api/crawl \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+    "pattern":"https://pokemondb.net/pokedex/:*",
+    "max_visits": 50
+}'
+```
+
+</CodeGroup>
+
+This will exclude the unwanted URLs.
