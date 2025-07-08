@@ -1,0 +1,22 @@
+<CodeGroup>
+
+```bash curl
+curl -X POST "https://api.fetchfox.ai/api/extract" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+   "urls": [
+     "https://pokemondb.net/pokedex/bulbasaur",
+     "https://pokemondb.net/pokedex/ivysaur",
+     "https://pokemondb.net/pokedex/venusaur"
+   ],
+   "template": {
+     "move_name": "Name of the pokemon move",
+     "move_type": "Name of the move type",
+     "move_power": "The power of the move"
+   },
+   "per_page": "many"
+}'
+```
+
+</CodeGroup>

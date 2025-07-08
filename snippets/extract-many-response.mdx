@@ -1,0 +1,38 @@
+```json
+{
+  "job_id": "fjszygdh38",
+  "results": {
+    "items": [
+      {
+        "move_name": "Growl",
+        "move_type": "Normal",
+        "move_power": "100",
+        "_url": "https://pokemondb.net/pokedex/ivysaur",
+        "_htmlUrl": "https://ffcloud.s3.amazonaws.com/visit/html/xz6rjf8h2v.html"
+      },
+      {
+        "move_name": "Growth",
+        "move_type": "Normal",
+        "move_power": "—",
+        "_url": "https://pokemondb.net/pokedex/ivysaur",
+        "_htmlUrl": "https://ffcloud.s3.amazonaws.com/visit/html/xz6rjf8h2v.html"
+      },
+      ...more items...
+    ]
+  },
+  "metrics": { ...cost and usage metrics... },
+  "artifacts": [
+    {
+      "type": "divide",
+      "divide": {
+        "reasoning": "Moves are presented in tables with the class 'data-table', where each move (row) is represented by a <tr> inside <tbody>. I focused on extracting each <tr> for coverage.",
+        ...more chain of thought...
+        "selector": ".data-table tbody tr"
+      }
+    },
+    {
+      "type": "schema",
+      "schema": { ...JSON schema definition... }
+  ]
+}
+```

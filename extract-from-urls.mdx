@@ -3,8 +3,10 @@ title: "Extract data from URLs"
 description: "The extract endpoint takes URLs and outputs structured data"
 ---
 
-import BasicExtractRequest from '/snippets/basic-extract-request.mdx';
-import BasicExtractResponse from '/snippets/basic-extract-response.mdx';
+import ExtractBasicRequest from '/snippets/extract-basic-request.mdx';
+import ExtractBasicResponse from '/snippets/extract-basic-response.mdx';
+import ExtractManyRequest from '/snippets/extract-many-request.mdx';
+import ExtractManyResponse from '/snippets/extract-many-response.mdx';
 
 FetchFox's extract endpoint takes a list of URLs and item template as input, and returns structured data following the item template. The item template can be a dictionary of key value pairs, or a string. You can extract a one item per URL, or many many items per URL.
 
@@ -17,7 +19,7 @@ The extract endpoint has two required parameters:
 
 The template can be a dictionary or a string.
 
-If template is a **dictionary**, the keys in the dictionary define the keys of each output item. The values in your template dictionary should describe what data you want in that field. The entire template dictionary will be passed to the AI, which will use it to do data extraction, so you can include helpful information like how to get the data, the format for that field, and so on. 
+If template is a **dictionary**, the keys in the dictionary define the keys of each output item. The values in your template dictionary should describe what data you want in that field. The entire template dictionary will be passed to the AI, which will use it to do data extraction, so you can include helpful information like how to get the data, the format for that field, and so on.
 
 If the template is a **string**, FetchFox will use that string to automatically determine the keys in the output items.
 
@@ -29,3 +31,18 @@ Below is an example of calling the extract endpoint with a template.
 
 The response to this call will look something like this:
 
+<BasicExtractResponse />
+
+## Extracting multiple items per URL
+
+By default, FetchFox extracts one item for each URL you pass in. Sometimes, a page contains multiple items. You can tell FetchFox to extract all of them by setting the `per_page` parameter to `many`.
+
+Below is an example of extract multliple items from a single page.
+
+<ExtractManyRequest />
+
+The response to this call will look something like this:
+
+<ExtractManyResponse />
+
+Note the `divide` artifact. FetchFox when you extract multiple items per page, FetchFox uses a CSS selector to divide the page into pieces. The CSS selector it used is included as the `divide` artifact, along with some AI chain of thought.
