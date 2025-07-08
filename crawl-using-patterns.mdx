@@ -11,7 +11,7 @@ FetchFox's crawl endpoint takes a URL pattern as input, and it returns a list of
 
 ## Using URL patterns
 
-A basic crawl takes just the `pattern` parameter as input, which is a URL pattern.
+A basic crawl takes just the `pattern` parameter as input. This parameter is a URL pattern.
 
 A URL pattern is a string that may contain some `*` and `:*` operators. Both of these are wildcards, but they operate in slightly different ways.
 
@@ -23,6 +23,8 @@ URL patterns must be valid URLs with a domain. The domain may not contain wildca
 Below are a few examples of URL patterns and what they match.
 
 <UrlPatternTable />
+
+Using the URL pattern you pass in, FetchFox will crawl the domain and find matching URLs.
 
 To execute a simple crawl with a URL pattern, pass it in as a parameter to the crawl endpoint. This is shown in the example call below.
 
