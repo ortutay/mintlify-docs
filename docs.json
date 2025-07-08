@@ -29,6 +29,7 @@
             "group": "Crawl",
             "pages": [
               "crawl-using-patterns",
+              "start-urls",
               "limiting-crawls"
             ]
           }
