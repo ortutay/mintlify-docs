@@ -20,7 +20,7 @@
             ]
           },
           {
-            "group": "Basics",
+            "group": "Scrape",
             "pages": [
               "scrape-equals-crawl-extract"
             ]
@@ -31,6 +31,12 @@
               "crawl-using-patterns",
               "start-urls",
               "limiting-crawls"
+            ]
+          },
+          {
+            "group": "Extract",
+            "pages": [
+              "extract-from-urls"
             ]
           }
         ]
