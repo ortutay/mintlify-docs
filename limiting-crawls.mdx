@@ -8,11 +8,12 @@ import MaxDepthCrawlRequest from '/snippets/max-depth-crawl-request.mdx';
 
 The crawl endpoint can be limited in two ways: you can limit the numbe of pages visited, and the depth (or distance) from the starting URLs.
 
-Limiting a crawl will control costs. Each visit uses bandwidth which incurs a cost depending on the proxy you use. There is also a small per-visit charge from FetchFox. A cap on the numbe of visits will also cap your cost.
+Some reasons to limit crawls:
 
-Limiting crawls also affects runtime. Although FetchFox visits pages concurrently during a crawl, there is a cap on that concurrency. A crawl with thousands of visits will take longer to execute than one with hundreds or fewer.
+- **Limiting a crawl will control costs.** Each visit uses bandwidth which incurs a cost depending on the proxy you use. There is also a small per-visit charge from FetchFox. A cap on the numbe of visits will also cap your cost.
+- **Limiting crawls will reduce runtime. **Although FetchFox visits pages concurrently during a crawl, there is a cap on that concurrency. A crawl with thousands of visits will take longer to execute than one with hundreds or fewer.
 
-Depending on the number of URLs you want to find, you may not need to visit very many pages in a crawl.
+Depending on the number of URLs you want to find, a small crawl may suffice.
 
 ## Limit the number of visits
 
@@ -26,16 +27,11 @@ This crawl will never visit more than the specified max pages.
 
 ## Limit the depth
 
-The `max_depth` parameter limits the depth of the crawl.
+The `max_depth` parameter limits the depth of the crawl. This parameter only applies if you [specify starting URLs](/start-urls) using the `start_urls` parameter.
 
-Depth means how far FetchFox will go from the starting URLs. The starting URLs are determined in one of two ways. 
+Depth is the distance from the starting URLs. Each starting URL has a depth of 0. URLs linked directly from the starting URL pages have a depth of 1, and pages linked from there have a depth of 2, and so on. If there are multiple links to a page, the lowest depth value is used.
 
-* If you pass in an array of URLs in `start_urls`, those are considered the staring URLs.
-* If you do _not_ pass in `start_urls`, then FetchFox will automatically set the starting URLs
-
-With that in mind, suppose a crawl starts at `https://example.com/`, and it finds a link to `https://example.com/category`. Following that link brings us to a depth of 1. If there is a link from there to ``https://example.com/category/product`, that would be a depth of 2, and so on.
-
-If there are multiple links to a page, the lowest depth value is used. All the starting URLs are considered to have a depth of 0.
+The `max_depth` parameter is the maximum depth from the start URLs that is allowed in a crawl. If you set a max depth of 0, only the starting URLs will be visited. If you set a max depth of 1, only pages linked from the starting URLs will be visited, and so on.
 
 Below is an example of a crawl that limits the maximum depth.
 

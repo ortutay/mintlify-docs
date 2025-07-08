@@ -2,3 +2,33 @@
 title: "Set the starting URLs"
 description: "You can tell FetchFox which URLs to start from"
 ---
+
+import MaxDepthGithubCrawlRequest from '/snippets/max-depth-github-crawl-request.mdx';
+
+When you crawl for URLs [using a pattern](/crawl-using-patterns), FetchFox needs a set of URLs to start at. Those URLs can be set in one of two ways:
+
+- \*\*Automatic: \*\*You can let FetchFox determine the starting URLs for you.
+- **Explicit:** You can tell FetchFox which URLs to start crawling from.
+
+Let's look at both of these options.
+
+## Automatically determine the starting URLs
+
+By default, FetchFox will automatically determine the staring URLs for you. FetchFox include the following URLs in its starting URL set:
+
+- \*\*The top level domain. \*\*If you pass in `https://example.com/category/*`, then the URL `https://example.com` will be included in the starting URL set.
+- **Path excluding wildcards.** FetchFox will also guess URLs based on the pattern you pass in. It will do this by removing the wildcards and constructing URLs. For example, `https://example.com/a/b/*` will yield the guesses `https://example.com/a/b` and `https://example.com/a` .
+- **Sitemap files.** If the target domain has a sitemap file, FetchFox may include those URLs in the starting URL set.
+- \*\*Known URLs from previous crawls. \*\*If FetchFox has crawled a domain before, it will pull a sample of known URLs from the database and add those to the starting URL set.
+
+## Explicitly setting the starting URLs
+
+The `start_urls` parameter lets you explicitly set the starting URLs for a crawl. If you set the starting URLs in this way, FetchFox will use only those URLs as a starting point, and will not add URLs to the set you provide.
+
+Setting the starting URLs is helpful for crawling specific parts of large sites. It is especially useful in combination with the `max_depth` parameter, which limits the [maximum depth of a crawl](/limiting-crawls). You can use these two parameters to find links only from a specific set of pages.
+
+For example, suppose you are scraping commits on specific repos on GitHub. You can pass in the target repos in `start_urls`, and limit the depth to 0, as shown in the example below.
+
+<MaxDepthGithubCrawlRequest />
+
+The call above will find commit URLs for the target repos, without wasting time on irrelevant parts of the site.
