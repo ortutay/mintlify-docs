@@ -36,7 +36,8 @@
           {
             "group": "Extract",
             "pages": [
-              "extract-from-urls"
+              "extract-from-urls",
+              "reducing-ai-context"
             ]
           }
         ]
