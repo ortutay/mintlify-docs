@@ -1,0 +1,48 @@
+```json
+{
+  "cost": {
+    "ai": 0.03578685,
+    "network": 0.00038156,
+    "fetchfox": 0.0505,
+    "total": 0.08666841
+  },
+  "ai": [
+    {
+      "model": "openai:gpt-4o-mini",
+      "tokens": {
+        "input": 213263,
+        "output": 6329,
+        "total": 219592
+      },
+      "cost": {
+        "input": 0.0319894,
+        "output": 0.0037974,
+        "total": 0.03578685
+      },
+      "runtime": {
+        "sec": 153.242,
+        "msec": 153242
+      }
+    }
+  ],
+  "network": [
+    {
+      "proxy": "datacenter",
+      "bytes": 38155641,
+      "cost": 0.00038156
+    }
+  ],
+  "fetchfox": [
+    {
+      "path": "visit",
+      "count": 50,
+      "cost": 0.0005
+    },
+    {
+      "path": "extract",
+      "count": 50,
+      "cost": 0.05
+    }
+  ]
+}
+```

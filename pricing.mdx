@@ -1,0 +1,65 @@
+---
+title: "Pricing and cost control"
+description: "FetchFox uses cost plus pricing, with many ways to lower cost"
+---
+
+import MetricsBasicResponse from '/snippets/metrics-basic-response.mdx';
+
+FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fixed fee on top of our underlying costs. The underlying costs for each scrape are the cost of network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a fixed fee basd on API usage.
+
+$$
+Your\ Price = Underlying\ Cost + FetchFox\ Fees
+$$
+
+The API offers a number of ways to lower the underlying costs. Often, a**_few small changes to your scrape can result in 10x lower cost._** 
+
+## Viewing cost metrics
+
+Every call you make to FetchFox has a `metrics` field. This field includes a cost breakdown, showing how much of the cost for that call was for network traffic, AI usage, and FetchFox fees.
+
+Below is an example cost breakdown.
+
+<MetricsBasicResponse />
+
+In this example, you can see a summary of costs for network, AI, and FetchFox usage. You can also see a detailed breakdown showing which proxies were used for how much data, which AI models were used for how many tokens, and which FetchFox calls were used.
+
+## FetchFox fees
+
+FetchFox charges fees for three operations. The prices below do _not_ include underlying costs. They only show the FetchFox fee. Also, note that crawls and extracts will also result in a number of visit operations.
+
+| Operation | Description                     | \$ per call | Notes                                   |
+| --------- | ------------------------------- | ----------- | --------------------------------------- |
+| `visit`   | Visiting a page                 | \$0.0001    | Will incur network costs                |
+| `crawl`   | Running a crawl                 | \$0.01      | Will incur visit and network costs      |
+| `extract` | Running extract in a single URL | \$0.001     | Will incur visit, network, and AI costs |
+
+A [scrape call](/scrape-equals-crawl-extract) does not have its own charge, but it will incur costs from all the underlying operations.
+
+## Underlying cost
+
+There are two sources of underlying cost for each call to FetchFox: network traffic and AI usage.
+
+### Network costs
+
+Network traffic is charged on a per byte basis. The cost of network traffic varies dramatically depending on which proxy you use. The cheapest option is to use a datacenter proxy. The per byte cost for this option is negligible, and we recommend using it whenever it works.
+
+Unfortunately, some sites are inaccessible from a datacenter proxy. To access those sites, you will need to use a more reliable and more expensive options. The table below shows the cost for each proxy.
+
+| Proxy                    | Cost per GB | Loads assets? |
+| ------------------------ | ----------- | ------------- |
+| `datacenter`             | \$0.01 / GB | No            |
+| `mobile`                 | \$0.50 / GB | No            |
+| `residential_cdp`        | \$8.00 / GB | No            |
+| `residential_cdp_assets` | \$8.50 / GB | Yes           |
+
+The `datacenter` proxy use known datacenter IP addresses. The `mobile` proxy connects from a 5G mobile network, which pools its IP address with other consumer mobile traffic. The `residential_cdp` and `residential_cdp_assets` proxies use residential IP's.
+
+Note how all the proxies except `residential_cdp_assets` do _not_ load assets. Assets are files like images, fonts, movies, and so on, which are not necessary for data extraction, and we save bandwidth by not loading them. Unfortunately, some sites use this behavior as a signal for bot detection. On those sites, it's necessary to use the most expensive option which loads assets.
+
+### AI costs
+
+AI usage is charged based on tokens. FetchFox works by sending the HTML of a page to an AI model, and asking that AI model to convert the HTML into structured data. Because AI models charge on a per token basis, sending more data to the AI means higher cost.
+
+There are two ways two control AI cost. The first is changing the AI model. Different AI models charge different amounts, and using lower cost model can also result in lower cost.
+
+The second way to control AI cost is by reducing the amount of data sent to the AI. On any given page, most of the HTML is _not_ necessary for data extraction. Although it's hard to know ahead of time which parts of the page are necessary and which are not, we can make some educated guesses that work most of the time. By default, FetchFox removes a lot of HTML to reduce context. You can learn more about how this works in our guide on [reducing AI context](/reducing-ai-context).
