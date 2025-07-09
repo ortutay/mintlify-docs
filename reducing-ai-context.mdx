@@ -1,0 +1,39 @@
+---
+title: "Reducing AI cost and context"
+description: "Limit the tokens used for extraction to reduce cost"
+---
+
+import ExtractFullHtmlRequest from '/snippets/extract-full-html-request.mdx';
+import ExtractFullHtmlResponse from '/snippets/extract-full-html-response.mdx';
+import ExtractTextOnlyRequest from '/snippets/extract-text-only-request.mdx';
+import ExtractTextOnlyResponse from '/snippets/extract-text-only-response.mdx';
+
+By default, [extractions in FetchFox](/extract-from-urls) look at the more or less the full HTML of a page. The full HTML contains all the possible data needed for extraction, but it is almost always overkill. The full HTML includes lots of extra data like headers, footers, navigation, and irrelevant attributes. Sending all that extra data inflates the number of tokens the AI has to look at, and makes extraction very expensive.
+
+FetchFox offers different extraction modes which reduce the amount of tokens sent to the AI. These modes can be specified using the `extract_context` parameter.
+
+Below are the allowed values for `extract_context` and their behavior.
+
+- The `text_only` context send _only_ text from the page to the AI.
+- The `slim_html` context sends a subset of the page HTML to the AI. This subset keeps only a few tags and attributes that often contain valuable data, like `<img src="..." />` and `<a href="...">` tags, and converts the rest to text.
+- The `reduce` context use AI to learn how to reduce the context. It takes the full HTML of the page along with the template, and asks the AI to write code that reduces the context. The AI looks at the page structure and template, and figures out what to data to keeep. The code from this process is re-used for subsequent extractions. As such, it adds a one time cost at the start of the process, but context for all extractions is reduced.
+
+As an example, lets look at the cost for an extraction that runs on the full HTML.
+
+<ExtractFullHtmlRequest />
+
+The response to this call will be something like this:
+
+<ExtractFullHtmlResponse />
+
+Notice the high number of tokens sent to the AI, and corresponding high cost.
+
+Lets run the same request using the `text_only` context.
+
+<ExtractTextOnlyRequest />
+
+The response to this call will be something like this:
+
+<ExtractTextOnlyResponse />
+
+The number of tokens, and therefore cost, is almost 10x lower. Also, the runtime is lower using the `text_only` context.
