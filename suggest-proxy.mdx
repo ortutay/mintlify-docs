@@ -1,0 +1,35 @@
+---
+title: "Automatically suggest a proxy"
+description: "Ask FetchFox to figure out which proxy to use"
+---
+
+import ProxySuggestRequest from '/snippets/proxy-suggest-request.mdx';
+import ProxySuggestResponse from '/snippets/proxy-suggest-response.mdx';
+
+Many sites [require a proxy to access](/proxy-basics). FetchFox lets you specify which proxy to use for any operation using the `proxy` parameter, but it can become difficult and time consuming to know which proxy to use for which site. Instead, you can ask FetchFox to automatically suggest a proxy to use for any given site.
+
+To ask FetchFox to suggest a proxy, you can use our suggest endpoint. It has one required parameter, which is `url`. This is the URL you are trying to access. 
+
+Below is an example of how to call this endpoint.
+
+<ProxySuggestRequest />
+
+The response this this call will look something like this:
+
+<ProxySuggestResponse />
+
+The response contains a suggested proxy in `results.best`. This proxy is the cheapeset one that we found to reliably access the target domain. We also return some historical statistics on historical visits to that domain, which you will see in `results.stats`. This shows how many requests from each proxy succeeded or failed.
+
+Note that the suggest endpoint will incur cost the first time it runs for any domain. This is because FetchFox needs to visit a sampling of URLs on the target domain, and evaluate the results using AI.
+
+## How it works
+
+The first time you call suggest for any domain, FetchFox visits a sampling of URLs on that domain, and checks the results using AI. We ask the AI if it noticed any errors, captchas, or other bot blocks on the page for each proxy. These results are recorded in our historical tracking database.
+
+Once we have some historical data, FetchFox picks the cheapest proxy that can reliably access a site. Reliable access means that most visits to that domain with a given proxy succeed.
+
+## Historical data and forced runs
+
+If FetchFox has enough historical data, then calls to the suggest endpoint do not have to make any new visits. These calls will be much faster and cheaper.
+
+However, if you want to force FetchFox to collect new data, use the `force_run` and `count` parameters. These will tell FetchFox to make `count` new visits to the target domain using each proxy, regardless of historical data.

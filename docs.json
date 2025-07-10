@@ -17,7 +17,9 @@
             "group": "Guides",
             "pages": [
               "quickstart",
-              "pricing"
+              "pricing",
+              "proxy-basics",
+              "suggest-proxy"
             ]
           },
           {

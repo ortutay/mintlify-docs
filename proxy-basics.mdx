@@ -1,0 +1,21 @@
+---
+title: "Avoid blocks with proxies"
+description: "Some sites require proxies to avoid blocks"
+---
+
+import CrawlProxyRequest from '/snippets/crawl-proxy-request.mdx';
+import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
+
+By default, FetchFox connects to sites from a datacenter. These datacenters have well known IP addresses, and some sites will block access to requests coming from a known dataenter IP address. To access these sites, you can use a proxy server.
+
+FetchFox makes it easy to use proxies. We integrate with several pre-selected proxy providers, and continuously monitor their reliability. To use a proxy, all you need to do is specify which one you would like to use.
+
+You can specify which proxy to use using the `proxy` option on any request. Below is an example of using the `residential_cdp` proxy for a crawl.
+
+<CrawlProxyRequest />
+
+Different domains will need different proxies. You'll typically want to use the cheapest proxy that can reliably access a site. Below is a table showing the proxies available, and their costs.
+
+<ProxyCostTable />
+
+We continuously evaluate new proxies for cost and reliability. If you are unable to access a site, or need to access a site at lower cost, please email [help@fetchfoxai.com](mailto:help@fetchfoxai.com).

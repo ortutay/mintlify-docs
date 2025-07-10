@@ -4,6 +4,7 @@ description: "FetchFox uses cost plus pricing, with many ways to lower cost"
 ---
 
 import MetricsBasicResponse from '/snippets/metrics-basic-response.mdx';
+import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
 
 FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fixed fee on top of our underlying costs. The underlying costs for each scrape are network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a FetchFox fee based on API usage.
 
@@ -27,11 +28,7 @@ In this example, you can see a summary of costs for network, AI, and FetchFox us
 
 FetchFox charges fees for three operations. The prices below do _not_ include underlying costs. They only show the FetchFox fee. Also, note that crawls and extracts will also result in a number of visit operations.
 
-| Operation | Description                     | \$ per call | Notes                                   |
-| --------- | ------------------------------- | ----------- | --------------------------------------- |
-| `visit`   | Visiting a page                 | \$0.0001    | Will incur network costs                |
-| `crawl`   | Running a crawl                 | \$0.01      | Will incur visit and network costs      |
-| `extract` | Running extract in a single URL | \$0.001     | Will incur visit, network, and AI costs |
+<ProxyCostTable />
 
 A [scrape call](/scrape-equals-crawl-extract) does not have its own charge, but it will incur costs from all the underlying operations.
 
