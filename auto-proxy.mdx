@@ -1,5 +1,5 @@
 ---
-title: "Automatically suggest a proxy"
+title: "Automatically pick a proxy"
 description: "Ask FetchFox to figure out which proxy to use"
 ---
 
@@ -8,7 +8,19 @@ import ProxySuggestResponse from '/snippets/proxy-suggest-response.mdx';
 
 Many sites [require a proxy to access](/proxy-basics). FetchFox lets you specify which proxy to use for any operation using the `proxy` parameter, but it can become difficult and time consuming to know which proxy to use for which site. Instead, you can ask FetchFox to automatically suggest a proxy to use for any given site.
 
-To ask FetchFox to suggest a proxy, you can use our suggest endpoint. It has one required parameter, which is `url`. This is the URL you are trying to access. 
+## The auto proxy parameter
+
+All of our endpoints (including scrape, crawl, and extract) let you pass in `auto` as a value for the `proxy` parameter. This tells FetchFox to automatically pick the most appropriate proxy on a per domain basis.
+
+Below is an example of how to call the crawl endpoint using the automatic proxy picker.
+
+<CrawlProxyAutoRequest />
+
+When FetchFox sees `auto` as the proxy value, it will check its historical data for the domain it is visiting. If there is historical data, then it will use that to pick the appropriate proxy. If there isn't, then FetchFox will run some trials to generate initial data on that domain. Thus, the first time you make a call with `auto` for particular domain, it may be a little slower than usual.
+
+## Suggest a proxy
+
+You can also use our standalone endpoint to pick a proxy. It has one required parameter, which is `url`. This is the URL you are trying to access.
 
 Below is an example of how to call this endpoint.
 

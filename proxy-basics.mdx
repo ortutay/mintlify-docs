@@ -4,6 +4,7 @@ description: "Some sites require proxies to avoid blocks"
 ---
 
 import CrawlProxyRequest from '/snippets/crawl-proxy-request.mdx';
+import CrawlProxyAutoRequest from '/snippets/crawl-proxy-auto-request.mdx';
 import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
 
 By default, FetchFox connects to sites from a datacenter. These datacenters have well known IP addresses, and some sites will block access to requests coming from a known dataenter IP address. To access these sites, you can use a proxy server.
@@ -19,3 +20,13 @@ Different domains will need different proxies. You'll typically want to use the 
 <ProxyCostTable />
 
 We continuously evaluate new proxies for cost and reliability. If you are unable to access a site, or need to access a site at lower cost, please email [help@fetchfoxai.com](mailto:help@fetchfoxai.com).
+
+## Automatically pick a proxy
+
+It can be time consuming to decide which proxy to use for each scrape. If you'd like FetchFox to automatically pick a proxy for you, just pass in `auto` as the proxy parameter.
+
+Below is an example of how to run a crawl that automatically picks a proxy. The same parameter can be used for all other endpoints like scrape and extract.
+
+<CrawlProxyAutoRequest />
+
+Read our guide on [automatic proxy selection](/auto-proxy) for more information on how this works.
