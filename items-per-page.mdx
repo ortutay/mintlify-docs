@@ -1,7 +1,5 @@
----
-title: "Extracting "one" vs. "many" items per page"
-description: "For any URL, you can extract either one item, or multliple items"
----
+import ExtractManyRequest from '/snippets/extract-many-request.mdx';
+import ExtractManyResponse from '/snippets/extract-many-response.mdx';
 
 Most pages on the web fall into one of two categories:
 
@@ -15,3 +13,13 @@ The **default extraction mode** is to extract **one item per URL**. In this mode
 To extract multiple items per page, simple set the `per_page` parameter to `many`. This will tell FetchFox that each URL you pass in contains many items.
 
 Below is an example of passing in several URLs to the extract endpoint, and asking FetchFox to extract multliple items from each URL.
+
+<ExtractManyRequest />
+
+The response will look something like this:
+
+<ExtractManyResponse />
+
+Each URL results in multiple items. Pricing for the extract endpoint is on a per URL basis, so the FetchFox fee you extract does go up if you extract hundreds or thousands of items from a single URL. The AI charges may be slightly higher though.
+
+- [Read more about how FetchFox pricing works](/pricing)
