@@ -1,0 +1,17 @@
+---
+title: "Extracting "one" vs. "many" items per page"
+description: "For any URL, you can extract either one item, or multliple items"
+---
+
+Most pages on the web fall into one of two categories:
+
+- **Detail pages** that describe a single item
+- **List pages** that show multiple items
+
+FetchFox can extract from both pages. For detail pages, you want to extract one item for each URL, and for list pages, you want to extract multiple items per page.
+
+The **default extraction mode** is to extract **one item per URL**. In this mode, if you pass in 10 URLs, you will get exactly 10 items in your results. This works well for detail pages.
+
+To extract multiple items per page, simple set the `per_page` parameter to `many`. This will tell FetchFox that each URL you pass in contains many items.
+
+Below is an example of passing in several URLs to the extract endpoint, and asking FetchFox to extract multliple items from each URL.
