@@ -10,9 +10,9 @@ import ExtractTextOnlyResponse from '/snippets/extract-text-only-response.mdx';
 
 By default, [extractions in FetchFox](/extract-from-urls) look at the more or less the full HTML of a page. The full HTML contains all the possible data needed for extraction, but it is almost always overkill. The full HTML includes lots of extra data like headers, footers, navigation, and irrelevant attributes. Sending all that extra data inflates the number of tokens the AI has to look at, and makes extraction very expensive.
 
-FetchFox offers different extraction modes which reduce the amount of tokens sent to the AI. These modes can be specified using the `extract_context` parameter.
+FetchFox offers different extraction modes which reduce the amount of tokens sent to the AI. These modes can be specified using the `content_transform` parameter.
 
-Below are the allowed values for `extract_context` and their behavior.
+Below are the allowed values for `content_transform` and their behavior.
 
 - `text_only` context send _only_ text from the page to the AI.
 - `slim_html` context sends a subset of the page HTML to the AI. This subset keeps only a few tags and attributes that often contain valuable data, like `<img src="..." />` and `<a href="...">` tags, and converts the rest to text.
