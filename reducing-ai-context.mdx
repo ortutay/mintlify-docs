@@ -15,7 +15,8 @@ FetchFox offers different extraction modes which reduce the amount of tokens sen
 Below are the allowed values for `content_transform` and their behavior.
 
 - `text_only` context send _only_ text from the page to the AI.
-- `slim_html` context sends a subset of the page HTML to the AI. This subset keeps only a few tags and attributes that often contain valuable data, like `<img src="..." />` and `<a href="...">` tags, and converts the rest to text.
+- `full_html` context sends the entire HTML page to the AI. This has the most data, and it is the most expensive
+- `slim_html` context sends a subset of the page HTML to the AI. This subset keeps only a few tags and attributes that often contain valuable data, like `<img src="..." />` and `<a href="...">` tags, and converts the rest to text. **This is the default.**
 - `reduce` context use AI to learn how to reduce the context. It takes the full HTML of the page along with the template, and asks the AI to write code that reduces the context. The AI looks at the page structure and template, and figures out what to data to keeep. The code from this process is re-used for subsequent extractions. As such, it adds a one time cost at the start of the process, but context for all extractions is reduced.
 
 As an example, lets look at the cost for an extraction that runs on the full HTML.
