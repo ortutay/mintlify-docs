@@ -33,7 +33,8 @@
             "pages": [
               "crawl-using-patterns",
               "start-urls",
-              "limiting-crawls"
+              "limiting-crawls",
+              "setting-priorities"
             ]
           },
           {
