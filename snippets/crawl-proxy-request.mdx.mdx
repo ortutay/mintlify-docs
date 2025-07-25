@@ -3,7 +3,7 @@
 ```bash curl
 curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer YOUR_API_KEY" \
+-H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
     "pattern":"https://pokemondb.net/pokedex/*",
     "proxy": "residential_cdp"

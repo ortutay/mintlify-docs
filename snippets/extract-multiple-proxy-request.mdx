@@ -3,7 +3,7 @@
 ```bash curl
 curl -X POST https://api.fetchfox.ai/api/extract \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer YOUR_API_KEY" \
+-H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
     "urls": ["https://pokemondb.net/pokedex/pikachu"],
     "template": "pokemon name, number, and basic stats",
