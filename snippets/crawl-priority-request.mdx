@@ -6,7 +6,7 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
     "pattern":"https://pokemondb.net/pokedex/*",
-    "visit_priority": {
+    "priority": {
       "only": [
         "https://example.com/shopping/*"
       ],

@@ -6,19 +6,19 @@ description: "You can control which pages FetchFox visits during a crawl"
 import CrawlPriorityRequest from '/snippets/crawl-priority-request.mdx';
 
 
-You can use the `visit_priority` parameter to control which pages FetchFox visits during a crawl, and in which order it visits them.
+You can use the `priority` parameter to control which pages FetchFox visits during a crawl, and in which order it visits them.
 
-The `visit_priority` parameter has four fields, each of which can be a list of URL patterns.
+The `priority` parameter has four fields, each of which can be a list of URL patterns.
 
 - `only` can be used to specifically whitelist certain URL patterns. If this field is defined, then FetchFox will _only_ visit URLs that match _at least one_ of those URL patterns.
 - `skip` can be used to specifically blacklist certain URL patterns. If this field is defined, then those URLs matching _any_ of the patterns in the list will be skipped. They will be skipped even if they match another pattern in priority definition.
 - `high` can be used to mark certain URL patterns as high priority. If this field is defined, then FetchFox will prioritize visiting URLs that match _any _of the patterns in the list.
 - `low` can be used to mark certain URL patterns as low priority. If this field is defined, then FetchFox will place low priority on visiting URLs that match _any _of the patterns in the list.
 
-As an example, suppose you want to visit _only_ URLs matching in the shopping category, but you want to skip jeans and pants. You also want to place higher priority on shirts, and lower priority on socks. You can use `visit_priority` to define all of these preferences, as shown in the example below.
+As an example, suppose you want to visit _only_ URLs matching in the shopping category, but you want to skip jeans and pants. You also want to place higher priority on shirts, and lower priority on socks. You can use `priority` to define all of these preferences, as shown in the example below.
 
 <CrawlPriorityRequest />
 
 Defining priorities is useful if you are targetting only a small section of a large site, or if you want to avoid wasting time on certain parts of a site.
 
-Keep in mind that `visit_priority` controls which pages FetchFox _visits_. The parameter doese _not_ affect which URLs are found in `results.hits`.
+Keep in mind that `priority` controls which pages FetchFox _visits_. The parameter doese _not_ affect which URLs are found in `results.hits`.
