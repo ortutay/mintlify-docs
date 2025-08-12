@@ -13,10 +13,10 @@ FetchFox's crawl endpoint takes a URL pattern as input, and it returns a list of
 
 A basic crawl takes just the `pattern` parameter as input. This parameter is a URL pattern.
 
-A URL pattern is a string that may contain some `*` and `:*` operators. Both of these are wildcards, but they operate in slightly different ways.
+A URL pattern is a string that may contain some `*` and `**` operators. Both of these are wildcards, but they operate in slightly different ways.
 
-- `*` matches any character
-- `:*` matches any character _except_  `/`
+- `*` matches any character _except_  `/`
+- `**` matches any character _including_  `/`
 
 URL patterns must be valid URLs with a domain. The domain may not contain wildcards.
 

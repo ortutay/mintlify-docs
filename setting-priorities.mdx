@@ -12,8 +12,8 @@ The `priority` parameter has four fields, each of which can be a list of URL pat
 
 - `only` can be used to specifically whitelist certain URL patterns. If this field is defined, then FetchFox will _only_ visit URLs that match _at least one_ of those URL patterns.
 - `skip` can be used to specifically blacklist certain URL patterns. If this field is defined, then those URLs matching _any_ of the patterns in the list will be skipped. They will be skipped even if they match another pattern in priority definition.
-- `high` can be used to mark certain URL patterns as high priority. If this field is defined, then FetchFox will prioritize visiting URLs that match _any _of the patterns in the list.
-- `low` can be used to mark certain URL patterns as low priority. If this field is defined, then FetchFox will place low priority on visiting URLs that match _any _of the patterns in the list.
+- `high` can be used to mark certain URL patterns as high priority. If this field is defined, then FetchFox will prioritize visiting URLs that match _any_ of the patterns in the list.
+- `low` can be used to mark certain URL patterns as low priority. If this field is defined, then FetchFox will place low priority on visiting URLs that match _any_ of the patterns in the list.
 
 As an example, suppose you want to visit _only_ URLs matching in the shopping category, but you want to skip jeans and pants. You also want to place higher priority on shirts, and lower priority on socks. You can use `priority` to define all of these preferences, as shown in the example below.
 
