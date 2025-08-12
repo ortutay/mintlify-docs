@@ -1,5 +1,5 @@
 | URL Pattern                                             | Matches                                                                                       | Does _not_ match                                            |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| https://example.com/a/\*     | https://example.com/a/page-1<br />https://example.com/a/page-2                                | https://example.com/b/page-1<br />https://example.com/a/x/y |
+| https://example.com/a/*     | https://example.com/a/page-1<br />https://example.com/a/page-2                                | https://example.com/b/page-1<br />https://example.com/a/x/y |
 | [https://example.com/a/\*](https://example.com/a/\*\)\* | https://example.com/a/b/page<br />https://example.com/a/page-2<br />https://example.com/a/x/y | https://example.com/c/page-1                                |
 | https://example.com/a/page-1                            | https://example.com/a/page-1                                                                  | https://example.com/a/page-2                                |
