@@ -36,7 +36,7 @@ The response for this call will look something like this:
 
 The `results.hits` section contains all the matching URLs.
 
-In the example above, you'll notice some unwanted URLs, like `https://pokemondb.net/pokedex/game/legends-arceus`. We were looking only for URLs matching Pokemon characters, not games. This is a good time to use the `:*` operator, which does _not_ match slashes. Our updated call looks like this:
+In the example above, you'll notice some unwanted URLs, like `https://pokemondb.net/pokedex/game/legends-arceus`. We were looking only for URLs matching Pokemon characters, not games. This is a good time to use the `*` operator, which does _not_ match slashes. Our updated call looks like this:
 
 <CodeGroup>
 
@@ -45,7 +45,7 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_API_KEY" \
 -d '{
-    "pattern":"https://pokemondb.net/pokedex/:*",
+    "pattern":"https://pokemondb.net/pokedex/*",
     "max_visits": 50
 }'
 ```
