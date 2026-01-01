@@ -5,6 +5,7 @@ description: "FetchFox uses cost plus pricing, with many ways to lower cost"
 
 import MetricsBasicResponse from '/snippets/metrics-basic-response.mdx';
 import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
+import CostsTable from '/snippets/costs-table.mdx';
 
 FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fixed fee on top of our underlying costs. The underlying costs for each scrape are network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a FetchFox fee based on API usage.
 
@@ -28,7 +29,7 @@ In this example, you can see a summary of costs for network, AI, and FetchFox us
 
 FetchFox charges fees for three operations. The prices below do _not_ include underlying costs. They only show the FetchFox fee. Also, note that crawls and extracts will also result in a number of visit operations.
 
-<ProxyCostTable />
+<CostsTable />
 
 A [scrape call](/scrape-equals-crawl-extract) does not have its own charge, but it will incur costs from all the underlying operations.
 
@@ -42,12 +43,7 @@ Network traffic is charged on a per byte basis. The cost of network traffic vari
 
 Unfortunately, some sites are inaccessible from a datacenter proxy. To access those sites, you will need to use a more reliable and more expensive options. The table below shows the cost for each proxy.
 
-| Proxy                    | Cost per GB | Loads assets? |
-| ------------------------ | ----------- | ------------- |
-| `datacenter`             | \$0.01 / GB | No            |
-| `mobile`                 | \$0.50 / GB | No            |
-| `residential_cdp`        | \$8.00 / GB | No            |
-| `residential_cdp_assets` | \$8.50 / GB | Yes           |
+<ProxyCostTable />
 
 The `datacenter` proxy use known datacenter IP addresses. The `mobile` proxy connects from a 5G mobile network, which pools its IP address with other consumer mobile traffic. The `residential_cdp` and `residential_cdp_assets` proxies use residential IP's.
 
