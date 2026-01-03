@@ -7,10 +7,10 @@ import MetricsBasicResponse from '/snippets/metrics-basic-response.mdx';
 import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
 import CostsTable from '/snippets/costs-table.mdx';
 
-FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fixed fee on top of our underlying costs. The underlying costs for each scrape are network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a FetchFox fee based on API usage.
+FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fee on top of our underlying costs. The underlying costs for each scrape are network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a FetchFox fee based on API usage and AI tokens.
 
 $$
-Your\ Price = Network\ Traffic + AI\ Usage + FetchFox\ Fees
+Your\ Price = Network\ Traffic + AI\ Usage * AI\ Surcharge + FetchFox\ Fees
 $$
 
 The API offers a number of ways to lower the underlying costs. Often, a **_few small changes to your scrape can result in 10x lower cost._**
@@ -27,11 +27,13 @@ In this example, you can see a summary of costs for network, AI, and FetchFox us
 
 ## FetchFox fees
 
-FetchFox charges fees for three operations. The prices below do _not_ include underlying costs. They only show the FetchFox fee. Also, note that crawls and extracts will also result in a number of visit operations.
+FetchFox charges fees for three operations and a surcharge for AI tokens. The prices below do _not_ include underlying costs. They only show the FetchFox fee. Also, note that crawls and extracts will also result in a number of visit operations.
 
 <CostsTable />
 
 A [scrape call](/scrape-equals-crawl-extract) does not have its own charge, but it will incur costs from all the underlying operations.
+
+The AI surcharge is equal to 50% of the underlying cost of all AI charges for any given API call. This fee is charged for BYOK queries.
 
 ## Underlying cost
 
