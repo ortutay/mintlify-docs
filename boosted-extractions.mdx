@@ -1,0 +1,22 @@
+---
+title: "Boosted extractions"
+description: "How FetchFox speeds up repeated extractions"
+---
+
+FetchFox can speed up repeated extractions with a boost system.
+
+## How it works
+
+For the first few extractions of a given page pattern and template, FetchFox extracts data by passing the page HTML to an AI model.
+
+After it has collected a few successful examples, the backend asks a more advanced AI model to write extraction code for that pattern and template. The backend evaluates that generated code before reusing it.
+
+Once the code has been written and accepted, later extractions can run using the generated code instead of calling an AI model for each page.
+
+## What this means in practice
+
+- The first few extractions are usually slower and include AI cost.
+- Later extractions can run much faster.
+- After boost code is in place, later runs typically have no AI cost for the extraction step.
+
+You do not need to enable anything manually. The system learns from successful extractions automatically.

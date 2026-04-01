@@ -6,10 +6,11 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
     "pattern":"https://pokemondb.net/pokedex/*",
-    "start_urls": [
+    "startUrls": [
       "https://pokemondb.net/pokedex/national"
     ],
-    "max_depth": 1
+    "maxDepth": 1,
+    "maxVisits": 50
 }'
 ```
 

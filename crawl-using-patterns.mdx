@@ -1,19 +1,19 @@
 ---
-title: "Crawl using URL patterns"
-description: "The crawl endpoint finds URLs matching a pattern"
+title: "Crawl using patterns or queries"
+description: "The crawl endpoint finds URLs using either a URL pattern or a query"
 ---
 
 import UrlPatternTable from '/snippets/url-pattern-table.mdx';
 import BasicCrawlRequest from '/snippets/basic-crawl-request.mdx';
 import BasicCrawlResponse from '/snippets/basic-crawl-response.mdx';
 
-FetchFox's crawl endpoint takes a URL pattern as input, and it returns a list of URLs matching that pattern. It does this by repeatedly visiting pages on the target domain, finding new URLs to visit, and returning the ones that match. The endpoint has a variety of parameters to control how the crawl is executed.
+The `/api/crawl` endpoint supports two crawl modes. You must provide exactly one of `pattern` or `query`.
 
-## Using URL patterns
+## Pattern-based crawl
 
-A basic crawl takes just the `pattern` parameter as input. This parameter is a URL pattern.
+Use `pattern` when you already know the URL structure you want.
 
-A URL pattern is a string that may contain some `*` and `**` operators. Both of these are wildcards, but they operate in slightly different ways.
+A URL pattern is a full URL plus wildcard operators:
 
 - `*` matches any character _except_  `/`
 - `**` matches any character _including_  `/`
@@ -24,19 +24,27 @@ Below are a few examples of URL patterns and what they match.
 
 <UrlPatternTable />
 
-Using the URL pattern you pass in, FetchFox will crawl the domain and find matching URLs.
-
-To execute a simple crawl with a URL pattern, pass it in as a parameter to the crawl endpoint. This is shown in the example call below.
+Example request:
 
 <BasicCrawlRequest />
 
-The response for this call will look something like this:
+Example response:
 
 <BasicCrawlResponse />
 
 The `results.hits` section contains all the matching URLs.
 
-In the example above, you'll notice some unwanted URLs, like `https://pokemondb.net/pokedex/game/legends-arceus`. We were looking only for URLs matching Pokemon characters, not games. This is a good time to use the `:*` operator, which does _not_ match slashes. Our updated call looks like this:
+If your pattern is too broad, switch from `**` to `*` where you want to avoid crossing path segments.
+
+## Query-based crawl
+
+Use `query` when you do not know the URL structure ahead of time, but you can describe the kind of page you want.
+
+With query crawl, FetchFox starts from `startUrls`, visits those pages, and uses page content plus links on the page to learn which URLs directly match your query and which links lead toward matching pages.
+
+`query` crawl requires `startUrls`.
+
+Example request:
 
 <CodeGroup>
 
@@ -45,11 +53,28 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_API_KEY" \
 -d '{
-    "pattern":"https://pokemondb.net/pokedex/:*",
-    "max_visits": 50
+    "query":"pokemon detail pages",
+    "startUrls": [
+      "https://pokemondb.net/pokedex/all"
+    ],
+    "maxVisits": 50
 }'
 ```
 
 </CodeGroup>
 
-This will exclude the unwanted URLs.
+Use `pattern` when you know the URL shape. Use `query` when you want FetchFox to discover relevant URLs from page content.
+
+<CodeGroup>
+
+```curl curl
+curl -X POST https://api.fetchfox.ai/api/crawl \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+    "pattern":"https://pokemondb.net/pokedex/*",
+    "maxVisits": 50
+}'
+```
+
+</CodeGroup>

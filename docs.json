@@ -19,14 +19,25 @@
               "quickstart",
               "pricing",
               "proxy-basics",
-              "auto-proxy",
-              "bring-your-own-keys"
+              "auto-proxy"
             ]
           },
           {
             "group": "Scrape",
             "pages": [
               "scrape-equals-crawl-extract"
+            ]
+          },
+          {
+            "group": "Agent",
+            "pages": [
+              "agent"
+            ]
+          },
+          {
+            "group": "Visit",
+            "pages": [
+              "visit"
             ]
           },
           {
@@ -43,7 +54,7 @@
             "pages": [
               "extract-from-urls",
               "items-per-page",
-              "reducing-ai-context"
+              "boosted-extractions"
             ]
           }
         ]
@@ -67,7 +78,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:marcell@fetchfoxai.com"
+        "href": "mailto:support@fetchfoxai.com"
       }
     ]
   },

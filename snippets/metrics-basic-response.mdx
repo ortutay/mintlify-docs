@@ -3,10 +3,10 @@
     ```json
     {
       "cost": {
-        "ai": 0.03578685,
-        "network": 0.00038156,
-        "fetchfox": 0.0505,
-        "total": 0.08666841
+        "ai": 0.02,
+        "network": 0.00019,
+        "fetchfox": 0.035,
+        "total": 0.05519
       },
       ... full breakdown ...
     }
@@ -16,47 +16,57 @@
     ```json
     {
       "cost": {
-        "ai": 0.03578685,
-        "network": 0.00038156,
-        "fetchfox": 0.0505,
-        "total": 0.08666841
+        "ai": 0.02,
+        "network": 0.00019,
+        "fetchfox": 0.035,
+        "total": 0.05519
       },
       "ai": [
         {
-          "model": "openai:gpt-4o-mini",
+          "model": "openai:gpt-5.2",
           "tokens": {
-            "input": 213263,
-            "output": 6329,
-            "total": 219592
+            "input": 100000,
+            "output": 4000,
+            "total": 104000
           },
           "cost": {
-            "input": 0.0319894,
-            "output": 0.0037974,
-            "total": 0.03578685
+            "input": 0.016,
+            "output": 0.004,
+            "total": 0.02
           },
           "runtime": {
-            "sec": 153.242,
-            "msec": 153242
+            "sec": 90.4,
+            "msec": 90400
           }
         }
       ],
       "network": [
         {
-          "proxy": "datacenter",
-          "bytes": 38155641,
-          "cost": 0.00038156
+          "tier": "datacenter_dedicated",
+          "bytes": 3800000,
+          "cost": 0.00019
         }
       ],
       "fetchfox": [
         {
-          "path": "visit",
-          "count": 50,
-          "cost": 0.0005
+          "path": "crawl",
+          "count": 1,
+          "cost": 0.001
         },
         {
           "path": "extract",
-          "count": 50,
-          "cost": 0.05
+          "count": 20,
+          "cost": 0.02
+        },
+        {
+          "path": "visit",
+          "count": 10,
+          "cost": 0.01
+        },
+        {
+          "path": "surcharge",
+          "count": 1,
+          "cost": 0.004
         }
       ]
     }

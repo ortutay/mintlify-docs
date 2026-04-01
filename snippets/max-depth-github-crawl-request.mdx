@@ -6,11 +6,12 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
     "pattern":"https://github.com/*/commit/*",
-    "start_urls": [
+    "startUrls": [
       "https://github.com/bitcoin/bitcoin/commits/master/",
       "https://github.com/torvalds/linux/commits/master/"
     ],
-    "max_depth": 0
+    "maxDepth": 0,
+    "maxVisits": 50
 }'
 ```
 

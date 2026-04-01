@@ -1,0 +1,48 @@
+---
+title: "Agent endpoint"
+description: "Run scraping tasks with a single prompt"
+---
+
+The `/api/agent` endpoint takes a natural-language `prompt` and chooses a strategy (`extract`, `crawl`, or `scrape`) for you.
+
+## Key parameter
+
+- `prompt`: what you want to collect
+
+## Example
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/agent \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+  "prompt": "Find product URLs on pokemondb.net and extract name and number for each pokemon."
+}'
+```
+
+</CodeGroup>
+
+Typical response shape:
+
+```json
+{
+  "jobId": "abc123",
+  "results": { "...": "..." },
+  "progress": {
+    "plan": { "...": "..." },
+    "messages": [{ "createdAt": 1730000000000, "body": "Planning..." }]
+  },
+  "metrics": { "...": "..." }
+}
+```
+
+## Pattern vs query crawl behavior
+
+The agent can route crawl-like work in two ways:
+
+- **Pattern-based crawl**: URL wildcard matching (`pattern`).
+- **Query-based crawl**: semantic page scanning (`query`) from seed URLs.
+
+This distinction matters for behavior, but you usually only provide `prompt` and let the agent choose.

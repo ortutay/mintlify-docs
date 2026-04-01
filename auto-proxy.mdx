@@ -4,45 +4,31 @@ description: "Ask FetchFox to figure out which proxy to use"
 ---
 
 import CrawlProxyAutoRequest from '/snippets/crawl-proxy-auto-request.mdx';
-import ProxySuggestRequest from '/snippets/proxy-suggest-request.mdx';
-import ProxySuggestResponse from '/snippets/proxy-suggest-response.mdx';
 
-Many sites [require a proxy to access](/proxy-basics). FetchFox lets you specify which proxy to use for any operation using the `proxy` parameter, but it can become difficult and time consuming to know which proxy to use for which site. Instead, you can ask FetchFox to automatically suggest a proxy to use for any given site.
+Many sites [require proxies](/proxy-basics). Instead of manually choosing a tier for each domain, you can set `proxy` to `auto`.
 
 ## The auto proxy parameter
 
-All of our endpoints (including scrape, crawl, and extract) let you pass in `auto` as a value for the `proxy` parameter. This tells FetchFox to automatically pick the most appropriate proxy on a per domain basis.
+Main endpoint requests (`visit`, `crawl`, `extract`, `scrape`) support:
 
-Below is an example of how to call the crawl endpoint using the automatic proxy picker.
+```json
+{
+  "proxy": "auto"
+}
+```
+
+Example:
 
 <CrawlProxyAutoRequest />
 
-When FetchFox sees `auto` as the proxy value, it will check its historical data for the domain it is visiting. If there is historical data, then it will use that to pick the appropriate proxy. If there isn't, then FetchFox will run some trials to generate initial data on that domain. Thus, the first time you make a call with `auto` for particular domain, it may be a little slower than usual.
+With `auto`, FetchFox uses domain-level history to balance reliability and cost.
 
-## Suggest a proxy
+`/api/agent` uses automatic proxying by default.
 
-You can also use our standalone endpoint to pick a proxy. It has one required parameter, which is `url`. This is the URL you are trying to access.
+## What to expect
 
-Below is an example of how to call this endpoint.
+- First request on a new domain can be slower while data is established.
+- Later requests on the same domain are usually faster and more stable.
+- If your job still struggles on a domain, switch to an explicit `proxy` tier.
 
-<ProxySuggestRequest />
-
-The response this this call will look something like this:
-
-<ProxySuggestResponse />
-
-The response contains a suggested proxy in `results.best`. This proxy is the cheapeset one that we found to reliably access the target domain. We also return some historical statistics on historical visits to that domain, which you will see in `results.stats`. This shows how many requests from each proxy succeeded or failed.
-
-Note that the suggest endpoint will incur cost the first time it runs for any domain. This is because FetchFox needs to visit a sampling of URLs on the target domain, and evaluate the results using AI.
-
-## How it works
-
-The first time you call suggest for any domain, FetchFox visits a sampling of URLs on that domain, and checks the results using AI. We ask the AI if it noticed any errors, captchas, or other bot blocks on the page for each proxy. These results are recorded in our historical tracking database.
-
-Once we have some historical data, FetchFox picks the cheapest proxy that can reliably access a site. Reliable access means that most visits to that domain with a given proxy succeed.
-
-## Historical data and forced runs
-
-If FetchFox has enough historical data, then calls to the suggest endpoint do not have to make any new visits. These calls will be much faster and cheaper.
-
-However, if you want to force FetchFox to collect new data, use the `force_run` and `count` parameters. These will tell FetchFox to make `count` new visits to the target domain using each proxy, regardless of historical data.
+If you need hard control over cost/behavior, use an explicit tier from [Proxy basics](/proxy-basics).

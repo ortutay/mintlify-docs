@@ -8,41 +8,48 @@ import ExtractBasicResponse from '/snippets/extract-basic-response.mdx';
 import ExtractManyRequest from '/snippets/extract-many-request.mdx';
 import ExtractManyResponse from '/snippets/extract-many-response.mdx';
 
-FetchFox's extract endpoint takes a list of URLs and item template as input, and returns structured data following the item template. The item template can be a dictionary of key value pairs, or a string. You can extract a one item per URL, or many many items per URL.
+The `/api/extract` endpoint converts page content into structured items.
 
 ## A simple extraction
 
-The extract endpoint has two required parameters:
+Key parameters:
 
-- `urls` specifies which URLs to target for data extraction.
-- `template` specifies the output format for each item.
+- `url` **or** `urls` (single URL or a list)
+- `template` (string or object)
 
-The template can be a dictionary or a string.
+The template can be a dictionary or a string:
 
-If template is a **dictionary**, the keys in the dictionary define the keys of each output item. The values in your template dictionary should describe what data you want in that field. The entire template dictionary will be passed to the AI, which will use it to do data extraction, so you can include helpful information like how to get the data, the format for that field, and so on.
+- **Dictionary/object**: output items follow the keys you provide.
+- **String**: FetchFox infers a schema from your prompt.
 
-If the template is a **string**, FetchFox will use that string to automatically determine the keys in the output items.
-
-Whether you `template` is a dictionary or a string, FetchFox will establish a JSON schema for your output items. This schema will be returned in the `artifacts` section of the response.
-
-Below is an example of calling the extract endpoint with a template.
+Example:
 
 <ExtractBasicRequest />
 
-The response to this call will look something like this:
+Response:
 
 <ExtractBasicResponse />
 
 ## Extracting multiple items per URL
 
-By default, FetchFox extracts one item for each URL you pass in. Sometimes, a page contains multiple items. You can tell FetchFox to extract all of them by setting the `per_page` parameter to `many`.
+By default, FetchFox extracts one item per URL. To extract multiple items from each page, set `perPage` to `many`.
 
-Below is an example of extract multliple items from a single page.
+Example:
 
 <ExtractManyRequest />
 
-The response to this call will look something like this:
+Response:
 
 <ExtractManyResponse />
 
-Note the `divide` artifact. FetchFox when you extract multiple items per page, FetchFox uses a CSS selector to divide the page into pieces. The CSS selector it used is included as the `divide` artifact, along with some AI chain of thought.
+When `perPage: "many"` is used, the response includes a `divide` artifact showing the selector used to split the page into repeated item blocks.
+
+## Boosted extractions
+
+The first few extractions for a given page pattern and template are usually done by sending page HTML to an AI model.
+
+After FetchFox has a few successful examples, the backend asks a more advanced model to write extraction code for that pattern and template. Later extractions can then run that generated code directly.
+
+That means repeated extractions usually get faster over time, and boosted runs typically have no AI cost for the extraction step.
+
+- [Read more about boosted extractions](/boosted-extractions)

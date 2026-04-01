@@ -6,35 +6,34 @@ description: "You can limit the number of visits and depth of crawls"
 import BasicCrawlRequest from '/snippets/basic-crawl-request.mdx';
 import MaxDepthCrawlRequest from '/snippets/max-depth-crawl-request.mdx';
 
-The crawl endpoint can be limited in two ways: you can limit the numbe of pages visited, and the depth (or distance) from the starting URLs.
+The crawl endpoint can be limited in two ways:
+
+- `maxVisits`: cap how many pages are visited.
+- `maxDepth`: cap how far the crawl can move from `startUrls`.
 
 Some reasons to limit crawls:
 
-- **Limiting a crawl will control costs.** Each visit uses bandwidth which incurs a cost depending on the proxy you use. There is also a small per-visit charge from FetchFox. A cap on the numbe of visits will also cap your cost.
-- **Limiting crawls will reduce runtime. **Although FetchFox visits pages concurrently during a crawl, there is a cap on that concurrency. A crawl with thousands of visits will take longer to execute than one with hundreds or fewer.
-
-Depending on the number of URLs you want to find, a small crawl may suffice.
+- **Control cost.** Each page visit has network and operation cost.
+- **Reduce runtime.** Smaller crawl scope finishes faster.
 
 ## Limit the number of visits
 
-The `max_visits` parameter puts a limit on the number of pages visited in the crawl. The crawl will never visit more than that many URLs.
+`maxVisits` sets a hard cap on visited pages.
 
-Below is an example of a call to the crawl endpoint with a limit.
+Example:
 
 <BasicCrawlRequest />
 
-This crawl will never visit more than the specified max pages.
-
 ## Limit the depth
 
-The `max_depth` parameter limits the depth of the crawl. This parameter only applies if you [specify starting URLs](/start-urls) using the `start_urls` parameter.
+`maxDepth` limits crawl distance from the `startUrls` set.
 
-Depth is the distance from the starting URLs. Each starting URL has a depth of 0. URLs linked directly from the starting URL pages have a depth of 1, and pages linked from there have a depth of 2, and so on. If there are multiple links to a page, the lowest depth value is used.
+Depth is measured as:
 
-The `max_depth` parameter is the maximum depth from the start URLs that is allowed in a crawl. If you set a max depth of 0, only the starting URLs will be visited. If you set a max depth of 1, only pages linked from the starting URLs will be visited, and so on.
+- Start URL = depth 0
+- Links from start URLs = depth 1
+- Next level = depth 2, etc.
 
-Below is an example of a crawl that limits the maximum depth.
+Example:
 
 <MaxDepthCrawlRequest />
-
-This crawl will not travel beyond the specified depth from the starting URLs.

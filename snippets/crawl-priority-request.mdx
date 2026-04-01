@@ -5,7 +5,7 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer $FETCHFOX_API_KEY" \
 -d '{
-    "pattern":"https://pokemondb.net/pokedex/*",
+    "pattern":"https://example.com/shopping/*",
     "priority": {
       "only": [
         "https://example.com/shopping/*"
@@ -13,15 +13,9 @@ curl -X POST https://api.fetchfox.ai/api/crawl \
       "skip": [
         "https://example.com/shopping/jeans/*",
         "https://example.com/shopping/pants/*"
-      ],
-      "high": [
-        "https://example.com/shopping/shirts/*"
-      ],
-      "low": [
-        "https://example.com/shopping/socks/*"
       ]
     },
-    "max_visits": 50
+    "maxVisits": 50
 }'
 ```
 

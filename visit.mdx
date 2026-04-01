@@ -1,0 +1,75 @@
+---
+title: "Visit URLs"
+description: "Fetch page content with /api/visit"
+---
+
+The `/api/visit` endpoint fetches page content and returns one or more content representations.
+
+## Key parameters
+
+- `url`: target page URL
+- `include`: list of content types to return
+
+## Using `include`
+
+Use `include: [...]` to choose which content representations FetchFox should return for the page.
+
+The default include set is:
+
+```json
+["markdown", "html", "urls"]
+```
+
+## Include options
+
+Supported include values:
+
+- `raw`: raw page HTML
+- `html`: normalized HTML
+- `slim_html`: reduced HTML
+- `markdown`: markdown conversion
+- `text`: text-only content
+- `urls`: links found on the page
+- `images`: image URLs found on the page
+- `json_ld`: JSON-LD blocks
+- `json_blobs`: JSON blobs found in the page
+- `timer`: timing data
+
+## Example
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/visit \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+  "url": "https://pokemondb.net/pokedex/pikachu",
+  "include": ["markdown", "html", "urls"]
+}'
+```
+
+</CodeGroup>
+
+Typical response shape:
+
+```json
+{
+  "results": [
+    {
+      "url": "https://pokemondb.net/pokedex/pikachu",
+      "status": "ok",
+      "markdown": { "body": "...", "link": "https://..." },
+      "html": { "body": "...", "link": "https://..." },
+      "urls": { "body": ["https://..."], "link": "https://..." }
+    }
+  ],
+  "metrics": { "...": "..." },
+  "links": {
+    "html": "https://..."
+  },
+  "html": "<!doctype html>..."
+}
+```
+
+Response fields from `include` are returned in camelCase (for example, `slim_html` becomes `slimHtml`).

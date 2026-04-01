@@ -8,35 +8,33 @@ import CrawlProxyAutoRequest from '/snippets/crawl-proxy-auto-request.mdx';
 import ExtractMultipleProxyRequest from '/snippets/extract-multiple-proxy-request.mdx';
 import ProxyCostTable from '/snippets/proxy-cost-table.mdx';
 
-By default, FetchFox connects to sites from a datacenter. These datacenters have well known IP addresses, and some sites will block access to requests coming from a known dataenter IP address. To access these sites, you can use a proxy server.
+By default, FetchFox connects using low-cost proxies. Some sites block those proxies, so you may need a different proxy tier.
 
-FetchFox makes it easy to use proxies. We integrate with several pre-selected proxy providers, and continuously monitor their reliability. To use a proxy, all you need to do is specify which one you would like to use.
+To pick a proxy explicitly, set the `proxy` field in `visit`, `crawl`, `extract`, or `scrape` requests.
 
-You can specify which proxy to use using the `proxy` option on any request. Below is an example of using the `residential_cdp` proxy for a crawl.
+Example:
 
 <CrawlProxyRequest />
 
-Different domains will need different proxies. You'll typically want to use the cheapest proxy that can reliably access a site. Below is a table showing the proxies available, and their costs.
+Different domains need different proxy tiers. Start with cheaper tiers when possible.
+
+Current proxy tiers in automatic selection and their costs:
 
 <ProxyCostTable />
 
-We continuously evaluate new proxies for cost and reliability. If you are unable to access a site, or need to access a site at lower cost, please email [help@fetchfoxai.com](mailto:help@fetchfoxai.com).
+If a site is still blocked, try `proxy: "auto"` to let FetchFox choose.
 
 ## Try multiple proxies
 
-You can ask FetchFox to try multiple proxies at once. Simply pass in an array of strings as the `proxy` parameter. FetchFox will launch concurrent visits for each proxy you pass in, and use the first valid response it gets.
+You can also pass an array to `proxy` and FetchFox will try multiple tiers concurrently.
 
-Below is an example of running an extraction with multiple proxies.
+Example:
 
 <ExtractMultipleProxyRequest />
 
-The response will indicate which proxy was used.
-
 ## Automatically pick a proxy
 
-It can be time consuming to decide which proxy to use for each scrape. If you'd like FetchFox to automatically pick a proxy for you, just pass in `auto` as the proxy parameter.
-
-Below is an example of how to run a crawl that automatically picks a proxy. The same parameter can be used for all other endpoints like scrape and extract.
+Pass `proxy: "auto"` to let FetchFox choose based on historical success/cost data for that domain.
 
 <CrawlProxyAutoRequest />
 
