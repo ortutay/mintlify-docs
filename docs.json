@@ -9,6 +9,15 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Discord",
+          "icon": "discord",
+          "href": "https://discord.gg/mM54bwdu59"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Guides",
@@ -19,7 +28,8 @@
               "quickstart",
               "pricing",
               "proxy-basics",
-              "auto-proxy"
+              "auto-proxy",
+              "detached-jobs"
             ]
           },
           {
@@ -59,16 +69,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Discord",
-          "href": "https://discord.gg/mM54bwdu59",
-          "icon": "discord"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/logo.svg",
