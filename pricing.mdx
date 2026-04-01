@@ -10,7 +10,7 @@ import FetchfoxFeeTable from '/snippets/fetchfox-fee-table.mdx';
 FetchFox uses [cost plus pricing](https://en.wikipedia.org/wiki/Cost-plus_pricing), which means we charge a fixed fee on top of our underlying costs. The underlying costs for each scrape are network traffic through proxies, and the cost of AI usage. We pass on these costs directly, and add a FetchFox fee based on API usage.
 
 $$
-Your\ Price = Network\ Traffic + AI\ Usage + FetchFox\ Fees
+Your\ Price = Network\ Traffic + AI\ Usage * AI\ Surcharge + FetchFox\ Fees
 $$
 
 In `metrics`:
@@ -38,6 +38,8 @@ FetchFox operation fees are:
 <FetchfoxFeeTable />
 
 FetchFox also applies a surcharge equal to **20% of AI usage cost**.
+
+<CostsTable />
 
 A [scrape call](/scrape-equals-crawl-extract) does not have its own charge, but it will incur costs from all the underlying operations.
 
