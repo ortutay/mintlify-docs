@@ -29,12 +29,21 @@ Typical response shape:
 ```json
 {
   "jobId": "abc123",
-  "results": { "...": "..." },
-  "progress": {
-    "plan": { "...": "..." },
-    "messages": [{ "createdAt": 1730000000000, "body": "Planning..." }]
+  "results": {
+    "hits": [
+      "https://pokemondb.net/pokedex/all",
+      "https://pokemondb.net/pokedex/bulbasaur"
+    ],
+    "items": [
+      {
+        "name": "Bulbasaur",
+        "number": "0001",
+        "_url": "https://pokemondb.net/pokedex/bulbasaur",
+        "_htmlUrl": "https://ffxyz.s3.amazonaws.com/visit/html/example.html"
+      }
+    ]
   },
-  "metrics": { "...": "..." }
+  "metrics": { ... }
 }
 ```
 

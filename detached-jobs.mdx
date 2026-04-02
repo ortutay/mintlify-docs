@@ -1,5 +1,82 @@
 ---
-title: 'Detached jobs'
+title: "Detached jobs"
+description: "Run FetchFox requests asynchronously and poll for completion"
 ---
 
-TODO
+FetchFox supports detached jobs for long-running requests.
+
+Any endpoint can take `detach: true`. When you set it, FetchFox returns immediately with a `jobId` instead of keeping the request open until the job finishes.
+
+Detached jobs are useful when:
+
+- Your crawl or extraction may take a while
+- Your client has a short timeout
+- You want to start work in one request and check progress later
+
+## Start a detached job
+
+Add `detach: true` to the same request body you would normally send.
+
+Example:
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.fetchfox.ai/api/scrape \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-d '{
+  "pattern": "https://pokemondb.net/pokedex/*",
+  "template": {
+    "name": "Pokemon name",
+    "number": "Pokemon number"
+  },
+  "maxVisits": 50,
+  "maxExtracts": 50,
+  "detach": true
+}'
+```
+
+</CodeGroup>
+
+Typical response:
+
+```json
+{
+  "jobId": "abc123"
+}
+```
+
+## Check job status
+
+To check the current status of a detached job, request:
+
+`https://api.fetchfox.ai/api/jobs/:jobId`
+
+Example:
+
+<CodeGroup>
+
+```bash curl
+curl https://api.fetchfox.ai/api/jobs/abc123 \
+-H "Authorization: Bearer YOUR_API_KEY"
+```
+
+</CodeGroup>
+
+The job response includes a `state` field.
+
+## Job states
+
+- `active`: the job is still running
+- `completed`: the job finished successfully
+- `error`: the job failed while running
+
+If the job is still `active`, keep polling the job endpoint until it reaches either `completed` or `error`.
+
+## Summary
+
+- Any FetchFox endpoint can run as a detached job.
+- Enable it by adding `detach: true` to the request body.
+- Use the returned `jobId` to poll `/api/jobs/:jobId`.
+- Watch the `state` field to know whether the job is still running, completed, or failed.
